@@ -16,7 +16,7 @@ print(housing_data.head())
 columnNames = housing_data[['RM', 'LSTAT', 'PTRATIO']]
 target = housing_data['MEDV']
 
-X_train, X_test, y_train, y_test = train_test_split(columnNames, target, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(columnNames, target, test_size=0.2, random_state=1)
 
 
 model = LinearRegression()
@@ -25,7 +25,7 @@ model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 
-
+    
 mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
@@ -34,10 +34,15 @@ print(f"Mean Absolute Error (MAE): {mae}")
 print(f"Mean Squared Error (MSE): {mse}")
 print(f"R-squared: {r2}")
 
-# Making Graph
-
 plt.figure(figsize=(8, 6))
+
 sns.scatterplot(x=y_test, y=y_pred)
+
+max_value = max(max(y_test), max(y_pred))
+min_value = min(min(y_test), min(y_pred))
+plt.plot([min_value, max_value], [min_value, max_value], color='red', linestyle='-.')
+
+# Labels and title
 plt.xlabel('Actual Prices')
 plt.ylabel('Predicted Prices')
 plt.title('Actual vs Predicted Housing Prices')
